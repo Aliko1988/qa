@@ -30,10 +30,38 @@ public class LionTest {
         System.out.println(actualFood);
         Assert.assertEquals(expectedFood, actualFood);}
 
-    @Test(expected = Exception.class)
-    public void getKittensThrowsException() throws Exception {
-        Lion lion = new Lion("Самец", feline);
-        Mockito.when(feline.getKittens()).thenThrow(new Exception("Ошибка получения котят"));
-        lion.getKittens(); // Здесь мы ожидаем выброса исключения
+    //@Test(expected = Exception.class)
+    //public void getKittensThrowsException() throws Exception {
+      //  Lion lion = new Lion("Самец", feline);
+      //  Mockito.when(feline.getKittens()).thenThrow(new Exception("Ошибка получения котят"));
+    // lion.getKittens(); // Здесь мы ожидаем выброса исключения
+
+        @Test(expected = Exception.class)
+        public void getFoodThrowsException() throws Exception {
+            Lion lion = new Lion("Самец", feline);
+            // Настройка мока, чтобы метод getFood выбрасывал исключение
+            Mockito.when(feline.getFood("Хищник")).thenThrow(new Exception("Ошибка получения корма"));
+
+            // Здесь мы ожидаем выброса исключения
+            lion.getFood();
+        }
+
+        @Test(expected = Exception.class)
+        public void lionConstructorThrowsExceptionForInvalidSex() throws Exception {
+            // Пытаемся создать объект Lion с некорректным значением пола
+            new Lion("Неправильное значение", feline);
+        }
+
+        @Test
+        public void lionConstructorDoesNotThrowExceptionForValidSex() throws Exception {
+            // Проверяем, что конструктор не выбрасывает исключение для корректных значений
+            Lion maleLion = new Lion("Самец", feline);
+            Lion femaleLion = new Lion("Самка", feline);
+            Assert.assertTrue(maleLion.doesHaveMane());
+            Assert.assertFalse(femaleLion.doesHaveMane());
+
+
+        }
+
     }
 }

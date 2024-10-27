@@ -28,6 +28,12 @@ public class LionTest {
         List<String> actualFood = lion.getFood();
         Mockito.verify(feline).getFood("Хищник");
         System.out.println(actualFood);
-        Assert.assertEquals(expectedFood, actualFood);
+        Assert.assertEquals(expectedFood, actualFood);}
+
+    @Test(expected = Exception.class)
+    public void getKittensThrowsException() throws Exception {
+        Lion lion = new Lion("Самец", feline);
+        Mockito.when(feline.getKittens()).thenThrow(new Exception("Ошибка получения котят"));
+        lion.getKittens(); // Здесь мы ожидаем выброса исключения
     }
 }
